@@ -1,4 +1,4 @@
-Seed Sense 
+Seed Sense 🌱
 
 An assistive robot that helps visually impaired users plant seeds accurately within a structured grid system.
 
@@ -35,7 +35,7 @@ Function	Arduino Pin
 Motor 1 IN1 / IN2	2 / 3
 Motor 2 IN3 / IN4	4 / 5
 Encoder Channel A / B	6 / 7
-Enable A / Enable B (PWM)	9 / 10
+Enable A / Enable B	9 / 10
 Button	12
 Firmware
 
@@ -44,12 +44,21 @@ The main sketch (seed_sense.ino) is written in Arduino C++ and:
 Uses a hardware interrupt on the encoder's A channel to track ticks in real time without blocking the main loop
 Converts ticks to distance via wheel circumference ÷ ticks-per-revolution
 Drives motors forward on button press and halts them once the target distance is reached
+Currently runs motors at a fixed full-on enable state (digitalWrite(enA/enB, HIGH)) rather than variable PWM speed — the enable pins are PWM-capable but not yet used that way
 Uses Serial output for debugging/status messages
+Getting Started (How to Run)
+Install the Arduino IDE — download the free IDE from arduino.cc/en/software.
+Connect the Arduino to your computer via USB. Drivers usually install automatically; clone boards may need the CH340 driver.
+Select your board and port — in the IDE, go to Tools > Board and choose your board (e.g. Arduino Uno), then Tools > Port and pick the port that appears when the board is plugged in.
+Open the sketch — open the .ino file from this repo in the IDE.
+Verify the code (checkmark button) to make sure it compiles with no errors.
+Upload the code (arrow button) to flash it onto the board.
+Wire up the hardware per the pin mapping above (motor driver, motors, encoder, button, power).
+Test it — open Tools > Serial Monitor at 9600 baud to see status messages, then press the button to trigger a 20-inch move.
 Future Improvements
 Add a second encoder (currently only one wheel is monitored) to detect and correct drift between the two motors
-Add PWM-based speed ramping instead of running motors at full enable voltage
+Use analogWrite() on the enable pins for actual PWM speed control/ramping instead of the current fixed full-on state
 Add auditory/haptic feedback for the visually impaired user at each grid stop
 Closed-loop turning between grid rows
-Team / Context
 
 Built for Tufts Robotics Club Robotathon Competition, April 2025. Teammates: Vicky Lin, Flory Mendez Merida, Andrew Barreda 
